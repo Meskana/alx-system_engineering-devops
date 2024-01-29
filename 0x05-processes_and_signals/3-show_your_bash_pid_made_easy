@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#a Bash script that displays the PID, along with the process name
+
+#pids=$(pgrep -f bash)
+
+#for pid in $pids
+#do
+#	process_name=$(cat /proc/$pid/cmdline | tr '\0' ' ')
+#	echo "$pids $process_name"
+#done
+for pid_dir in /proc/[0-9]*; do
+  # Check if the directory is a valid process directory
+  if [[ -d "$pid_dir" && -f "$pid_dir/cmdline" ]]; then
+    # Read the process name from /proc/<pid>/cmdline
+    process_name=$(cat "$pid_dir/cmdline" | tr '\0' ' ')
+
+    # Check if the process name contains "bash"
+    if [[ "$process_name" =~ bash ]]; then
+      pid=$(basename "$pid_dir")
+      echo "$pid $process_name"
+    fi
+  fi
+done
