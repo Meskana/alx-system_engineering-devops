@@ -1,38 +1,10 @@
 #!/usr/bin/env bash
-# configures a new ubuntu machine by installing
-# Nginx where it should be listening on port 80
-# Serve a page that would return a Hello World string
 
-# Updating and installing Nginx.
-sudo apt-get update -y
-sudo apt-get install nginx -y
+#custom HTTP respone headder
+sudo sed -i '49i\       add_header X-Served-By $HOSTNAME;' /etc/nginx/sites-enabled/default
 
-# Starting nginx service
-sudo service nginx start
+#test for syntax errors
+sudo nginx -t
 
-# Allowing nginx on firewall
-sudo ufw allow 'Nginx HTTP'
-
-# Give the user ownership to website files for easy editing
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www/html
-
-# Backup default index
-sudo cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-
-# Creating new index
-echo "Hello World!" | sudo tee /var/www/html/index.html
-
-# Configuring Nginx
-sudo sed -i '/listen 80 default_server;/a \
-    error_page 404 /404.html;\n\
-    location = /404.html {\n\
-        root /var/www/html;\n\
-        internal;\n\
-    }' /etc/nginx/sites-enabled/default
-# Create custom header in Nginx configuration
-sudo sed -i "/server_name _/a \\tadd_header x-served-By \$hostname;" /etc/nginx/sites-enabled/default
-
-sudo nginx -t   # Test nginx configuration
-sudo service nginx restart   # Restart nginx
-
+#restart after making changes
+sudo service nginx restart
