@@ -27,6 +27,4 @@ if __name__ == "__main__":
         sys.exit(1)
     subreddit = sys.argv[1]
     number_of_subscribers(subreddit)
-    print(
-        f"Number of subscribers in r/{subreddit}:"
-        f"{number_of_subscribers(subreddit)}")
+    print(f"{number_of_subscribers(subreddit)}")
