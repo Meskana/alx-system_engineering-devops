@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-import sys
-import requests
 """
  function that queries the Reddit API and returns the number of subscribers
 """
+#import sys
+import requests
 
 
 def number_of_subscribers(subreddit):
