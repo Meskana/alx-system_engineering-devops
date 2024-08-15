@@ -7,6 +7,7 @@ and prints a sorted count of given keywords
 import requests
 import sys
 
+
 def count_words(subreddit, word_list, after=None, count={}):
     """
     recursive function that queries the Reddit API,
